@@ -15,7 +15,7 @@
                     EOF
 
         tags = {
-        Name = "warmup_instance"
+        Name = "swarmp_instance"
     }
 
 }
@@ -29,7 +29,7 @@
 */
 
     resource "aws_security_group" "instance" {
-        name = "terraform-warmup-instance"
+        name = "terraform-swarmp-instance"
 
     ingress {
         from_port = var.server_port
@@ -68,8 +68,18 @@
     }
 }
 
+terraform {
+    backend "s3" {
+        bucket = "amfilling"
+        region = "us-east-2"
+        dynamodb_table = "filling-up-locks"
+        encrypt = true
+        key = "global/s3/terraform.tfstate"
+    }
+}
+
     resource "aws_security_group" "alb" {
-      name = "terraform-warmup-asg-alb"
+      name = "terraform-swarmp-asg-alb"
 
     # Allow inbound HTTP requests
     ingress {
